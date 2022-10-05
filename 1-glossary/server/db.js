@@ -1,32 +1,28 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const dbName = 'glossary';
-// let db;
-// const url = "mongodb://127.0.0.1:27017/glossary";
-const url = "http://localhost:3000/glossary";
+const dbName = 'glossary';  //not sure if we really need this
 
-
-mongoose.connect(url, { useNewUrlParser: true});
+const uri = 'mongodb://127.0.0.1:27017/glossary';
+mongoose.connect(uri, {useNewUrlParser: true});
 
 let db = mongoose.connection;
-db.once('open', _ => {
-  console.log('Database connected: ', url);
+
+db.once('open', _ => { //not sure what this means
+  console.log('Database connected: ', uri);
 });
 db.on('error', err => {
-  console.log('Connection error: ', url);
+  console.log('Connection error: ', uri); //appears to be successful
 });
-// db = client.db(dbName);
-// db.on("error", console.error.bind(console, "MongoDB connection error:"));
-// console.log(`Connected MongoDB: ${url}`);
-// console.log(`Database/: ${dbName}`);
 
+/**making new schema */
+const wordsSchema = new Schema({
+  word: String,
+  definition: String
+});
 
-// const glossarySchema = new Schema({
-//   word: String,
-//   definition: String
-// });
+const Model = mongoose.model('Words', wordsSchema);
+const words = new Model(); //hooray, this is now a collection in my glossary database!
 
-// const Glossary = mongoose.model('Glossary', glossarySchema);
 
 // const wordInstance = new Glossary({word:'defenestration', definition: 'to throw someone or something out of a window'});
 
