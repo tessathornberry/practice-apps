@@ -19,12 +19,14 @@ app.use(cors());
 app.use(express.json());
 
 // methods sent by client
+/**A second input should allow the user to search through the entries and filter the results as a result. - may need to do a conditional and fix db */
 app.get('/glossary', (req, res) => {
-  db.findWords()
-    .then((value) => {
-      res.status(200).send(value)
-    })
-    .catch((err) => console.log(err))
+  console.log('req.body', req.body);
+    db.findAllWords(req.body)
+      .then((value) => {
+        res.status(200).send(value)
+      })
+      .catch((err) => console.log(err))
 });
 
 app.post('/glossary', (req, res) => {

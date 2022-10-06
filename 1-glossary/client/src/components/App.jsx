@@ -5,9 +5,10 @@ import axios from 'axios';
 const {useState, useEffect} = React;
 
 const App = () => {
-//PUT must include an array w/2 items
-useEffect(() => {
-  axios.get('http://localhost:3000/glossary')
+
+//PATCH must include an array w/2 items
+useEffect((input) => {
+  axios.get('http://localhost:3000/glossary', input)
   .then(response => console.log('response', response.data))
   .catch(err => console.log(err));
 }, []);

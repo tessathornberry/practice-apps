@@ -13,14 +13,18 @@ const wordsSchema = new Schema({
 
 const Words = mongoose.model('Words', wordsSchema); //'words' is collection/table name now in my db
 //GET
-var findWords = () => {
-  return Words.find({}); //make sure there is an empty object here!
+var findAllWords = (input) => {
+  var object = {input} || {};
+  console.log('input in findwords', input)
+  return Words.find(input); //make sure there is an empty object here!
 };
 //POST
+//but what about when someone tries to put in a word that already exists?
 var createWord = (input) => {
   return Words.create(input);
 };
-//PUT
+
+//PUT - this SHOULD be able to take an ID and update the word, the definition, or BOTH YES IT CAN! woo!
 var updateWord = (filter, update) => {
   return Words.findOneAndUpdate(filter, update);
 };
@@ -31,7 +35,7 @@ var deleteWord = (input) => {
 
 // module.exports.db = db;
 module.exports.createWord = createWord;
-module.exports.findWords = findWords;
+module.exports.findAllWords = findAllWords;
 module.exports.updateWord = updateWord;
 module.exports.deleteWord = deleteWord;
 
