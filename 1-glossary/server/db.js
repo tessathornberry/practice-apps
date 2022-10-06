@@ -5,15 +5,6 @@ const dbName = 'glossary';  //not sure if we really need this, but it is my data
 const uri = 'mongodb://127.0.0.1:27017/glossary';
 mongoose.connect(uri, {useNewUrlParser: true});
 
-// let db = mongoose.connection;
-// /**may not need thie following */
-// db.once('open', _ => { //not sure what this means
-//   console.log('Database connected: ', uri);
-// });
-// db.on('error', err => {
-//   console.log('Connection error: ', uri); //appears to be successful
-// });
-
 /**making new schema */
 const wordsSchema = new Schema({
   word: String,
@@ -21,36 +12,28 @@ const wordsSchema = new Schema({
 });
 
 const Words = mongoose.model('Words', wordsSchema); //'words' is collection/table name now in my db
-
-// probably in this file will be parameters (filter, edit, callback)
-var createWord = (input) => {
-  // console.log('input in db', input);
-  return Words.create(input);
-}
-
-// probably in this file will be parameters (filter, edit, callback)
-// Words.findOneAndUpdate({word: "defenestration"}, {word: "deforestation"}, (err, updated) => {
-//   if (err) {
-//     console.log(err);
-//   }
-//   console.log('returned updatedWord', updated); //make this useful?
-// });
+//GET
 var findWords = () => {
-  return Words.find({});
-}
-
-// Words.findOneAndDelete({word: "perseverence"}, (err, deleted) => {
-//   if (err) {
-//     console.log(err);
-//   }
-//   console.log('returned deleted', deleted);
-// });
+  return Words.find({}); //make sure there is an empty object here!
+};
+//POST
+var createWord = (input) => {
+  return Words.create(input);
+};
+//PUT
+var updateWord = (filter, update) => {
+  return Words.findOneAndUpdate(filter, update);
+};
+//DELETE
+var deleteWord = (input) => {
+  return Words.findOneAndDelete(input);
+};
 
 // module.exports.db = db;
 module.exports.createWord = createWord;
 module.exports.findWords = findWords;
-// module.exports.create = Words.create;
-
+module.exports.updateWord = updateWord;
+module.exports.deleteWord = deleteWord;
 
 // 1. Use mongoose to establish a connection to MongoDB
 // 2. Set up any schema and models needed by the app

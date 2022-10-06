@@ -5,7 +5,7 @@ import axios from 'axios';
 const {useState, useEffect} = React;
 
 const App = () => {
-//this is returning the index.html file instead of the data from the database - fix axios req.?
+//PUT must include an array w/2 items
 useEffect(() => {
   axios.get('http://localhost:3000/glossary')
   .then(response => console.log('response', response.data))
