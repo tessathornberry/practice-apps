@@ -23,9 +23,8 @@ useEffect((input) => {
 var addWord = (entry) => { //has to be in object format
   axios.post('http://localhost:3000/glossary', entry)
     .then((response) => {
-      //if post is successful, re-render page with obj without id, or re-get?
       console.log('response data', response.data);
-      setWords([...wordHolder, entry]);
+      setWords([...words, response.data]);
     })
     .catch(err => console.log(err));
 }
