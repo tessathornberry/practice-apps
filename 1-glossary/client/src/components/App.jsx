@@ -59,7 +59,7 @@ return (
 };
 
 /******************* WordList ******************/
-const WordList = ({words, deleteWord}) => {
+const WordList = ({words, deleteWord, editWords}) => {
   return (
     <ul>
       {words.map((word) =>
@@ -73,43 +73,22 @@ const WordList = ({words, deleteWord}) => {
 const WordEntry = ({word, definition, deleteWord, editWords}) => {
   console.log(word);
   const [showEdit, setShowEdit] = useState(true);
-  // const [editedWord, setEditedWord] = useState(word);
-  // const [editedDef, setEditedDef] = useState(definition)
-  var wordStorage = '';
+  var wordStorage = word;
 
-  var handleEdit = (event) => {
-    if (true) {
-      return {word}:    {definition}
+  // var handleEdit = (event) => {
+
+  // }
+
+  //onclick, should I have the word actually editable? should I do a pop up?
+  return (
+    <li style={{"fontSize":"large","listStyleType":"none"}}>
+         {word}:    {definition}
       <div>
       <button onClick={(event) => {
         wordStorage = word;
         setShowEdit(!showEdit)}}>edit</button>
       <button>delete</button>
       </div>
-    }
-    // else {
-    //   return    <form onSubmit={(event) => {
-    //     event.preventDefault();
-    //     var passArray = [];
-    //     var newWord = {};
-    //     newWord.word = wordStorage;
-    //     passArray.push(newWord);
-    //     newWord.word = newWordEntry;
-    //     newWord.definition = newDefEntry;
-    //     passArray.push(newWord);
-    //     editWords(passArray)
-    //   }}>
-    //     <input type="text" placeholder={editedWord} value={editedWord} onChange={(event) => setEditedWord(event.target.value)}/>
-    //     <input type="text" placeholder={editedDef} value={editedDef} onChange={(event) => setEditedDef(event.target.value)}/>
-    //     <button type="submit">Confirm edit</button>
-    //   </form>
-    // }
-  }
-
-  //onclick, should I have the word actually editable? should I do a pop up?
-  return (
-    <li style={{"fontSize":"large","listStyleType":"none"}}>
-         {handleEdit(event)}
     </li>
 
   )
