@@ -69,29 +69,55 @@ const WordList = ({words, deleteWord, editWords}) => {
   )
 };
 
-/******************* WordEntry ******************/
+/******************* WordEntry, editing, deleting ******************/
 const WordEntry = ({word, definition, deleteWord, editWords}) => {
-  console.log(word);
+  console.log('inWordEntry', word);
   const [showEdit, setShowEdit] = useState(true);
+  const [currentWord, setCurrentWord] = useState(word);
+  const [currentDef, setCurrentDef] = useState(definition);
+
   var wordStorage = word;
 
-  // var handleEdit = (event) => {
+  //onclick, should I have the word actually editable? should I do a pop up? re-render?
+  if (showEdit) {
+    return (
+      <li style={{"fontSize":"large","listStyleType":"none"}}>
+           {word}:    {definition}
+        <div>
+        <button onClick={(event) => {
+          setShowEdit(!showEdit)}}>edit</button>
+                  <button>delete</button>
+        {/* <button onClick={(event) => {
+          setShowEdit(!showEdit)}}>delete</button> */}
+        </div>
+      </li>
+    )
 
-  // }
+  } else {
+    return (
+      <form onSubmit={(event) => {
+        event.preventDefault();
+        var passingArray = [];
+        var newWord = {};
+        var oldWord = {};
+        oldWord.word = wordStorage;
+        console.log('wordStorage', wordStorage);
+        passingArray.push(oldWord);
+        console.log('passingArray old word', passingArray);
 
-  //onclick, should I have the word actually editable? should I do a pop up?
-  return (
-    <li style={{"fontSize":"large","listStyleType":"none"}}>
-         {word}:    {definition}
-      <div>
-      <button onClick={(event) => {
-        wordStorage = word;
-        setShowEdit(!showEdit)}}>edit</button>
-      <button>delete</button>
-      </div>
-    </li>
-
-  )
+        newWord.word = currentWord;
+        newWord.definition = currentDef;
+        console.log('passingArray new word', passingArray);
+        passingArray.push(newWord);
+        editWords(passingArray);
+        setShowEdit(!showEdit);
+      }}>
+        <input type="text" placeholder="Edit the word..." value={currentWord} onChange={(event) => setCurrentWord(event.target.value)}/>
+        <input type="text" placeholder="Edit the definition..." value={currentDef} onChange={(event) => setCurrentDef(event.target.value)}/>
+        <button type="submit">Add Edit</button>
+      </form>
+    )
+  }
 };
 
 const AddWordForm = ({handleSubmission}) => {
