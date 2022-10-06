@@ -6,7 +6,6 @@ const {useState, useEffect} = React;
 
 const App = () => {
 let [words, setWords] = useState([]);
-//PATCH must include an array w/2 items
 var wordHolder = [];
 
 useEffect((input) => {
@@ -22,46 +21,95 @@ useEffect((input) => {
 
 var addWord = (entry) => { //has to be in object format
   axios.post('http://localhost:3000/glossary', entry)
-    .then((response) => {
-      console.log('response data', response.data);
-      setWords([...words, response.data]);
-    })
-    .catch(err => console.log(err));
+  .then((response) => {
+    console.log('response data', response.data);
+    setWords([...words, response.data]);
+  })
+  .catch(err => console.log(err));
 }
 
- //I need to map the words and send them to components
-  return (
+//PATCH must include an array w/2 items
+var editWords = (editedEntry) => {
+  axios.patch('http://localhost:3000/glossary', editedEntry)
+  .then((response) => {
+    console.log('response data', response.data);
+    // setWords([...words, response.data]); //should re-render
+  })
+  .catch(err => console.log(err));
+}
+
+var deleteWord = (deletedEntry) => {
+  axios.patch('http://localhost:3000/glossary', deletedEntry)
+  .then((response) => {
+    console.log('response data', response.data);
+    // setWords([...words, response.data]); //should re-render
+  })
+  .catch(err => console.log(err));
+}
+
+//I need to map the words and send them to components
+return (
   <div>
     <h2>Glossary</h2>
     <AddWordForm handleSubmission={addWord}/>
     <div><form></form></div>
-    <WordList words={words}/>
+    <WordList words={words} editWords={editWords} deleteWord={deleteWord} />
   </div>
   );
 };
+
 /******************* WordList ******************/
-const WordList = ({words}) => {
+const WordList = ({words, deleteWord}) => {
   return (
     <ul>
       {words.map((word) =>
-        <WordEntry word={word.word} definition={word.definition} key={word._id}/>
+        <WordEntry word={word.word} definition={word.definition} key={word._id} deleteWord={deleteWord} editWords={editWords}/>
       )}
     </ul>
   )
 };
 
 /******************* WordEntry ******************/
-const WordEntry = ({word, definition}) => {
-  console.log('word', word);
-  console.log('definition', definition);
+const WordEntry = ({word, definition, deleteWord, editWords}) => {
+  console.log(word);
+  const [showEdit, setShowEdit] = useState(true);
+  // const [editedWord, setEditedWord] = useState(word);
+  // const [editedDef, setEditedDef] = useState(definition)
+  var wordStorage = '';
 
-  return (
-    <li style={{"fontSize":"large","listStyleType":"none"}}>
-         {word}:    {definition}
+  var handleEdit = (event) => {
+    if (true) {
+      return {word}:    {definition}
       <div>
-      <button>edit</button>
+      <button onClick={(event) => {
+        wordStorage = word;
+        setShowEdit(!showEdit)}}>edit</button>
       <button>delete</button>
       </div>
+    }
+    // else {
+    //   return    <form onSubmit={(event) => {
+    //     event.preventDefault();
+    //     var passArray = [];
+    //     var newWord = {};
+    //     newWord.word = wordStorage;
+    //     passArray.push(newWord);
+    //     newWord.word = newWordEntry;
+    //     newWord.definition = newDefEntry;
+    //     passArray.push(newWord);
+    //     editWords(passArray)
+    //   }}>
+    //     <input type="text" placeholder={editedWord} value={editedWord} onChange={(event) => setEditedWord(event.target.value)}/>
+    //     <input type="text" placeholder={editedDef} value={editedDef} onChange={(event) => setEditedDef(event.target.value)}/>
+    //     <button type="submit">Confirm edit</button>
+    //   </form>
+    // }
+  }
+
+  //onclick, should I have the word actually editable? should I do a pop up?
+  return (
+    <li style={{"fontSize":"large","listStyleType":"none"}}>
+         {handleEdit(event)}
     </li>
 
   )
