@@ -26,7 +26,6 @@ var createWord = (input) => {
 
 //PUT - this SHOULD be able to take an ID and update the word, the definition, or BOTH YES IT CAN! woo!
 var updateWord = (filter, update) => {
-  console.log('update in db', update);
   return Words.findOneAndUpdate(filter, update);
 };
 //DELETE

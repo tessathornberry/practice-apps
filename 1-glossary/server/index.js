@@ -21,10 +21,11 @@ app.use(express.json());
 // methods sent by client
 /**A second input should allow the user to search through the entries and filter the results as a result. - may need to do a conditional and fix db */
 app.get('/glossary', (req, res) => {
-  console.log('req.body', req.body);
-    db.findAllWords(req.body)
+  //in app.get, bust use gereq.query because body is not automatically supplied
+  console.log('req.query', req.query);
+    db.findAllWords(req.query)
       .then((value) => {
-        res.status(200).send(value)
+        res.send(value).status(200);
       })
       .catch((err) => console.log(err))
 });
@@ -48,7 +49,6 @@ app.patch('/glossary', (req, res) => {
 
 // app.delete();
 app.delete('/glossary', (req, res) => {
-  console.log('req.body in app.delete', req);
   db.deleteWord(req.body)
     .then((value) => {  //this is whatever is returned by db.js
       res.status(204).send(value); //do not need to do anything with this value, but client should re-render upon success, possible new get request?
