@@ -6,9 +6,11 @@ const {useState, useEffect} = React;
 
 const App = () => {
 let [words, setWords] = useState([]);
-var wordHolder = [];
+// var wordHolder = [];
 
 useEffect((input) => {
+var wordHolder = [];
+
   axios.get('http://localhost:3000/glossary', input)
   .then((response) => {
     for (var i = 0; i < response.data.length; i++) {
@@ -32,19 +34,36 @@ var addWord = (entry) => { //has to be in object format
 var editWords = (editedEntry) => {
   axios.patch('http://localhost:3000/glossary', editedEntry)
   .then((response) => {
-    console.log('response data', response.data);
-    // setWords([...words, response.data]); //should re-render
+  })  //could sort this out nicer
+  .then(axios.get('http://localhost:3000/glossary')
+  .then((allWords) => {
+    var wordHolder2 = [];
+    for (var i = 0; i < allWords.data.length; i++) {
+      wordHolder2.push(allWords.data[i]);
+    }
+    setWords(wordHolder2);
   })
-  .catch(err => console.log(err));
+  .catch(err => console.log(err)));
 }
 
 var deleteWord = (deletedEntry) => {
-  axios.patch('http://localhost:3000/glossary', deletedEntry)
+  var obj = {};
+  obj.data = deletedEntry;
+  axios.delete('http://localhost:3000/glossary', obj)
   .then((response) => {
-    console.log('response data', response.data);
-    // setWords([...words, response.data]); //should re-render
+    console.log('response in line 54, app.jsx', response)
   })
-  .catch(err => console.log(err));
+  .then(axios.get('http://localhost:3000/glossary')
+  .then((allWords) => {
+    var wordHolder3 = [];
+    for (var i = 0; i < allWords.data.length; i++) {
+      wordHolder3.push(allWords.data[i]);
+    }
+    setWords(wordHolder3);
+  })
+  .catch(err => console.log(err))
+  )
+  .catch(err => console.log(err))
 }
 
 //I need to map the words and send them to components
@@ -71,7 +90,7 @@ const WordList = ({words, deleteWord, editWords}) => {
 
 /******************* WordEntry, editing, deleting ******************/
 const WordEntry = ({word, definition, deleteWord, editWords}) => {
-  console.log('inWordEntry', word);
+  // console.log('inWordEntry', word);
   const [showEdit, setShowEdit] = useState(true);
   const [currentWord, setCurrentWord] = useState(word);
   const [currentDef, setCurrentDef] = useState(definition);
@@ -86,13 +105,15 @@ const WordEntry = ({word, definition, deleteWord, editWords}) => {
         <div>
         <button onClick={(event) => {
           setShowEdit(!showEdit)}}>edit</button>
-                  <button>delete</button>
-        {/* <button onClick={(event) => {
-          setShowEdit(!showEdit)}}>delete</button> */}
+                  <button onClick={(event) => {
+                    var deleteItem = {};
+                    deleteItem.word = wordStorage;
+                    console.log('line 107 deleteItem', deleteItem);
+                    deleteWord(deleteItem);
+                  }}>delete</button>
         </div>
       </li>
     )
-
   } else {
     return (
       <form onSubmit={(event) => {

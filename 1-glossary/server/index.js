@@ -41,14 +41,14 @@ app.post('/glossary', (req, res) => {
 app.patch('/glossary', (req, res) => {
   db.updateWord(req.body[0], req.body[1]) //2 inputs?
     .then((value) => {  //this is whatever is returned by db.js
-      res.status(204).send(value); //do not need to do anything with this value, but client should re-render upon success, possible new get request?
+      res.send(value).status(204); //do not need to do anything with this value, but client should re-render upon success, possible new get request?
     })
     .catch(err => console.log(err))
   });
 
 // app.delete();
 app.delete('/glossary', (req, res) => {
-  console.log('req.body', req.body);
+  console.log('req.body in app.delete', req);
   db.deleteWord(req.body)
     .then((value) => {  //this is whatever is returned by db.js
       res.status(204).send(value); //do not need to do anything with this value, but client should re-render upon success, possible new get request?
