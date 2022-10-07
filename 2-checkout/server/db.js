@@ -1,4 +1,4 @@
-// require("dotenv").config();
+require("dotenv").config();
 const mysql = require("mysql2");
 const Promise = require("bluebird");
 
@@ -11,10 +11,11 @@ const connection = mysql.createConnection({
 });
 
 const db = Promise.promisifyAll(connection, { multiArgs: true });
+// console.log('db', db);
 
 db.connectAsync()
   .then(() => console.log(`Connected to MySQL as id: ${db.threadId}`))
-  .then((result) => {
+  .then(() => {
     console.log('db.threadId', db.threadId);
     // Expand this table definition as needed:
 
