@@ -26,9 +26,6 @@ app.use(express.json());
 app.use(cors());
 app.use(morgan('dev'));
 
-
-
-
 /****
  *
  *
@@ -39,8 +36,16 @@ app.use(morgan('dev'));
  */
 // app.get();
 app.post('/checkout', (req, res) => {
-  console.log('req.body',req.body)
-  res.send(req.params).status(201);
+  var params = req.body;
+  var queryStr = "INSERT into responses(username, password, line1, line2, city, state, zip, phone, ccNumber, expDate, billingzip) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+  db.queryAsync(queryStr, params, (err, results) => {
+
+  })
+  .then((results) => console.log('results', results))
+  .catch((err) => console.log('err', err));
+
+  //I have to pass the req body on to the model to handle unless I want to raw data it here
+  //what would that look like? oof, forgot mysql!!
 
 });
 // app.
