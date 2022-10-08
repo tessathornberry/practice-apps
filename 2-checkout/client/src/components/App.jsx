@@ -7,6 +7,7 @@ const {useState, useEffect} = React;
 const App = () => {
   const [page, setPage] = useState(1);
   const [isVisible, setIsVisible] = useState(true);
+  const [checkoutResponse, setCheckoutResponse] = useState({}); //object
   const [buttonVisible, setButtonVisible] = useState(true);
   const [F1Visible, setF1Visible] = useState(false);
   const [F2Visible, setF2Visible] = useState(false);
@@ -14,9 +15,16 @@ const App = () => {
 
   /** declare result object and assign cookie as a value */
   //could we use useEffect here?
-  var checkoutResponse = {};
-  checkoutResponse.s_id = document.cookie;
-  console.log('object in app', checkoutResponse);
+  useEffect(() => {
+    checkoutResponse.s_id = document.cookie;
+    console.log('object in app', checkoutResponse);
+  }, []);
+
+  const handleSubmit = (values) => {
+    const newValues = {...values};
+    console.log('newValues', newValues);
+  }
+
 
   /** function to set forms visible or not */
   var Form = ({formNumber, isVisible}) => {
@@ -24,7 +32,7 @@ const App = () => {
   }
 
   var Form1Visible = ({isVisible}) => {
-    return isVisible ? <Form1 isVisible={F1Visible} object={checkoutResponse} openCart={openCart}/> : null;
+    return isVisible ? <Form1 isVisible={F1Visible} object={checkoutResponse} openCart={openCart} handleSubmit={handleSubmit}/> : null;
   }
 
   var Button = ({isVisible}) => {
@@ -51,7 +59,7 @@ const App = () => {
     } else {
       console.log("should have checked out already!");
       setF3Visible(false);
-      setButtonVisible(true); //change this out for submit button on form 3
+      //change this out for submit button on form 3
     }
   }
 
