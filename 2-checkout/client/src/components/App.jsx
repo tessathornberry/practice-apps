@@ -1,5 +1,6 @@
 import React from "react";
 import Form1 from './Form1.jsx';
+import Form2 from './Form2.jsx';
 
 
 const {useState, useEffect} = React;
@@ -25,7 +26,6 @@ const App = () => {
     console.log('newValues', newValues);
   }
 
-
   /** function to set forms visible or not */
   var Form = ({formNumber, isVisible}) => {
     return isVisible ? <div className="form">{formNumber}, this one</div> : null;
@@ -33,6 +33,10 @@ const App = () => {
 
   var Form1Visible = ({isVisible}) => {
     return isVisible ? <Form1 isVisible={F1Visible} object={checkoutResponse} openCart={openCart} handleSubmit={handleSubmit}/> : null;
+  }
+
+  var Form2Visible = ({isVisible}) => {
+    return isVisible ? <Form2 isVisible={F2Visible} object={checkoutResponse} openCart={openCart} handleSubmit={handleSubmit}/> : null;
   }
 
   var Button = ({isVisible}) => {
@@ -67,8 +71,8 @@ const App = () => {
     <div>
       <h3>Hi hi!</h3>
       {/* <Form isVisible={F1Visible} formNumber="F1" /> */}
-      <Form1Visible isVisible={F1Visible}/>
-      <Form isVisible={F2Visible} formNumber="F2" />
+      <Form1Visible isVisible={F1Visible} />
+      <Form2Visible isVisible={F2Visible} />
       <Form isVisible={F3Visible} formNumber="F3" />
       <Button isVisible={buttonVisible} formNumber="button" />
       {/* <button id="checkout" onClick={(event) => {openCart(event)}}>Checkout</button> */}
