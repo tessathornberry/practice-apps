@@ -6,7 +6,7 @@ module.exports = {
 
   create: function(params, callback) {
     // console.log('params in model.js', params);
-    var queryString = "INSERT into responses(s_id, username, password, line1, line2, city, state, zip, phone, ccNumber, expDate, billingzip) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    var queryString = "INSERT into responses(s_id, username, email, password, line1, line2, city, state, zip, phone, ccNumber, expDate, billingzip) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     db.query(queryString, params, (err, results) => {
       if (err) {
         callback(err.code);

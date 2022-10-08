@@ -19,7 +19,7 @@ db.connectAsync() // this only connects and creates the responses table
     // Expand this table definition as needed:
 
     db.queryAsync(
-      "CREATE TABLE IF NOT EXISTS responses (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, s_id VARCHAR(50) NOT NULL UNIQUE, username VARCHAR(35) NOT NULL, password VARCHAR(25), line1 VARCHAR(50), line2 VARCHAR(50), city VARCHAR(50), state VARCHAR(50), zip VARCHAR(11), phone VARCHAR(25), ccNumber VARCHAR(35), expDate VARCHAR(20),billingzip VARCHAR(11))"
+      "CREATE TABLE IF NOT EXISTS responses (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, s_id VARCHAR(50) NOT NULL UNIQUE, username VARCHAR(35) NOT NULL, email VARCHAR(255), password VARCHAR(25), line1 VARCHAR(50), line2 VARCHAR(50), city VARCHAR(50), state VARCHAR(50), zip VARCHAR(11), phone VARCHAR(25), ccNumber VARCHAR(35), expDate VARCHAR(20),billingzip VARCHAR(11))"
     ) //this creates responses table
   })
   .catch((err) => console.log(err));

@@ -12,12 +12,18 @@ const App = () => {
   const [F3Visible, setF3Visible] = useState(false);
 
   /** declare result object and assign cookie as a value */
+  //could we use useEffect here?
   var checkoutResponse = {};
   checkoutResponse.s_id = document.cookie;
+  console.log('object in app', checkoutResponse);
 
   /** function to set forms visible or not */
   var Form = ({formNumber, isVisible}) => {
     return isVisible ? <div className="form">{formNumber}, this one</div> : null;
+  }
+
+  var Form1Visible = ({isVisible}) => {
+    return isVisible ? <Form1 isVisible={F1Visible} object={checkoutResponse}/> : null;
   }
 
   var Button = ({isVisible}) => {
@@ -43,15 +49,15 @@ const App = () => {
     } else {
       console.log("should have checked out already!");
       setF3Visible(false);
-      setButtonVisible(true);
-
+      setButtonVisible(true); //change this out for submit button on form 3
     }
   }
 
   return (
     <div>
       <h3>Hi hi!</h3>
-      <Form isVisible={F1Visible} formNumber="F1" />
+      {/* <Form isVisible={F1Visible} formNumber="F1" /> */}
+      <Form1Visible isVisible={F1Visible} object={checkoutResponse}/>
       <Form isVisible={F2Visible} formNumber="F2" />
       <Form isVisible={F3Visible} formNumber="F3" />
       <Button isVisible={buttonVisible} formNumber="button" />
@@ -60,5 +66,32 @@ const App = () => {
 
   )
 };
+//pass result object along tp forms as a prop, an array of key/value pairs, or return the values to the app file?
+//F1 collects name, email, and password for account creation.
+const Form1 = ({object}) => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+
+  return (
+
+    <form onSubmit={(event)=> {
+      event.preventDefault();
+      object.username = name;
+      object.email = email;
+      object.password = password;
+      console.log('object in Form 1', object);
+
+    }}>
+      <div><input type="text" placeholder="username..." value={name} onChange={(event) => setName(event.target.value)}></input></div>
+      <div><input type="text" placeholder="e-mail..." value={email} onChange={(event) => setEmail(event.target.value)}></input></div>
+      <div><input type="text" placeholder="password..." value={password} onChange={(event) => setPassword(event.target.value)}></input></div>
+      <div><button type="submit">Next</button></div>
+
+
+    </form>
+  )
+}
 
 export default App;
