@@ -23,12 +23,13 @@ const App = () => {
   }
 
   var Form1Visible = ({isVisible}) => {
-    return isVisible ? <Form1 isVisible={F1Visible} object={checkoutResponse}/> : null;
+    return isVisible ? <Form1 isVisible={F1Visible} object={checkoutResponse} openCart={openCart}/> : null;
   }
 
   var Button = ({isVisible}) => {
     return isVisible ? <button id="checkout" onClick={(event) => {openCart(event)}}>Checkout</button> :
-    <button id="checkout" onClick={(event) => {openCart(event)}}>Next</button>;
+    null;
+    // <button id="checkout" onClick={(event) => {openCart(event)}}>Next</button>;
   };
 
   var openCart = (event) => {
@@ -57,7 +58,7 @@ const App = () => {
     <div>
       <h3>Hi hi!</h3>
       {/* <Form isVisible={F1Visible} formNumber="F1" /> */}
-      <Form1Visible isVisible={F1Visible} object={checkoutResponse}/>
+      <Form1Visible isVisible={F1Visible}/>
       <Form isVisible={F2Visible} formNumber="F2" />
       <Form isVisible={F3Visible} formNumber="F3" />
       <Button isVisible={buttonVisible} formNumber="button" />
@@ -68,7 +69,7 @@ const App = () => {
 };
 //pass result object along tp forms as a prop, an array of key/value pairs, or return the values to the app file?
 //F1 collects name, email, and password for account creation.
-const Form1 = ({object}) => {
+const Form1 = ({object, openCart}) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -82,14 +83,13 @@ const Form1 = ({object}) => {
       object.email = email;
       object.password = password;
       console.log('object in Form 1', object);
+      openCart(event);
 
     }}>
       <div><input type="text" placeholder="username..." value={name} onChange={(event) => setName(event.target.value)} required></input></div>
       <div><input type="text" placeholder="e-mail..." value={email} onChange={(event) => setEmail(event.target.value)} required></input></div>
       <div><input type="text" placeholder="password..." value={password} onChange={(event) => setPassword(event.target.value)} required></input></div>
       <div><button type="submit">Next</button></div>
-
-
     </form>
   )
 }
