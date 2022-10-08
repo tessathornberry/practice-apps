@@ -1,4 +1,5 @@
 import React from "react";
+import Form1 from './Form1.jsx';
 
 
 const {useState, useEffect} = React;
@@ -69,29 +70,28 @@ const App = () => {
 };
 //pass result object along tp forms as a prop, an array of key/value pairs, or return the values to the app file?
 //F1 collects name, email, and password for account creation.
-const Form1 = ({object, openCart}) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+// const Form1 = ({object, openCart}) => {
+//   const [name, setName] = useState('');
+//   const [email, setEmail] = useState('');
+//   const [password, setPassword] = useState('');
 
 
-  return (
+//   return (
 
-    <form onSubmit={(event)=> {
-      event.preventDefault();
-      object.username = name;
-      object.email = email;
-      object.password = password;
-      console.log('object in Form 1', object);
-      openCart(event);
-
-    }}>
-      <div><input type="text" placeholder="username..." value={name} onChange={(event) => setName(event.target.value)} required></input></div>
-      <div><input type="text" placeholder="e-mail..." value={email} onChange={(event) => setEmail(event.target.value)} required></input></div>
-      <div><input type="text" placeholder="password..." value={password} onChange={(event) => setPassword(event.target.value)} required></input></div>
-      <div><button type="submit">Next</button></div>
-    </form>
-  )
-}
+//     <form onSubmit={(event)=> {
+//       event.preventDefault();
+//       object.username = name;
+//       object.email = email;
+//       object.password = password;
+//       console.log('object in Form 1', object);
+//       openCart(event);
+//     }}>
+//       <div><input type="text" placeholder="username..." value={name} onChange={(event) => setName(event.target.value)} required></input></div>
+//       <div><input type="text" placeholder="e-mail..." value={email} onChange={(event) => setEmail(event.target.value)} required></input></div>
+//       <div><input type="text" placeholder="password..." value={password} onChange={(event) => setPassword(event.target.value)} required></input></div>
+//       <div><button type="submit">Next</button></div>
+//     </form>
+//   )
+// }
 
 export default App;
