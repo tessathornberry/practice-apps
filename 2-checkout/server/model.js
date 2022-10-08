@@ -1,30 +1,23 @@
 // const db = require('.db');
 const db = require("./db");
-console.log('db in model', db)
+// console.log('db in model', db)
 
 module.exports = {
-  //if the id is already in the table, refresh the client page, otherwise, store the data in the db
-  queryS_ID: function(params, callback) {
-    var queryString = "SELECT responses.s_id FROM responses WHERE s_id = ?";
-    console.log('params in queryS_ID in model.js', params);
-    db.query(queryString, params, (err, results) => {
-      if (err) throw (err);
-      console.log('results of create in models', results);
-      callback(err, results);
-    });
-  },
 
   create: function(params, callback) {
-    console.log('params in model.js', params);
+    // console.log('params in model.js', params);
     var queryString = "INSERT into responses(s_id, username, password, line1, line2, city, state, zip, phone, ccNumber, expDate, billingzip) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     db.query(queryString, params, (err, results) => {
-      if (err) throw (err);
-      console.log('results of create in models', results);
-      callback(err, results);
+      if (err) {
+        callback(err.code);
+      } else {
+        console.log('results of create in models', results);
+        callback(null, results);
+      }
     });
   },
 
-  getAll: function(callback) { //do I want to get everything or just foor one user?
+  getAll: function(callback) { //do I want to get everything or just for one user?
     var queryString = "SELECT * FROM responses";
     db.query(queryString, (err, results) => {
       console.log("results of getAll in models!", results);

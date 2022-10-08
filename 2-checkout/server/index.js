@@ -29,32 +29,33 @@ app.use(cors());
 app.use(morgan('dev'));
 
 /****
- *
- *
- *
  * Other routes here....
  */
 
-// app.get();
-app.post('/checkout', (req, res) => {
-  var checkSID = req.body.s_id;
-
-  console.log('checkSID', checkSID);
-  if (models.queryS_ID(checkSID, (err, result) => {
+app.get('/checkout', (req, res) => {
+  models.getAll((err, result) => {
     if (err) {
-      console.log('error', err);
+      res.sendStatus(500).end();
     } else {
-      res.sendStatus(201).end();
+      res.send(result).end(); //don't actually want to do this! it sends ALL the data!
+      // res.send(result).sendStatus(201).end();
+
     }
-    console.log('result', result);
-  }))
-  //put some sort of 'if cookie is already in db or such here'
-  //if
-  var params = Object.values(req.body);
-  // console.log('params in server.index.js', params);
+  })
+});
+
+app.post('/checkout', (req, res) => {
+  var params = Object.values(req.body); //make an array of the object keys
+  //refresh page with customer data from incomplete purchase or prompt user to start over and clear cookie
   models.create(params, (err, result) => {
     if (err) {
-      res.sendStatus(500);
+      if (err === 'ER_DUP_ENTRY') {
+        //do something
+      res.sendStatus(304).end();
+      } else {
+        res.sendStatus(500).end();
+        console.log(err);
+      }
     } else {
       res.sendStatus(201).end();
     }
