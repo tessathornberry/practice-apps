@@ -6,6 +6,7 @@ const {useState, useEffect} = React;
 const App = () => {
   const [page, setPage] = useState(1);
   const [isVisible, setIsVisible] = useState(true);
+  const [buttonVisible, setButtonVisible] = useState(true);
   const [F1Visible, setF1Visible] = useState(false);
   const [F2Visible, setF2Visible] = useState(false);
   const [F3Visible, setF3Visible] = useState(false);
@@ -17,19 +18,19 @@ const App = () => {
   /** function to set forms visible or not */
   var Form = ({formNumber, isVisible}) => {
     return isVisible ? <div className="form">{formNumber}, this one</div> : null;
-
-    // if (isVisible) {
-    //   return <div className="form">{formNumber}, this one</div>;
-    // }
-    // return null;
-    // return <div className="form">{formNumber}, make null</div>;
   }
+
+  var Button = ({isVisible}) => {
+    return isVisible ? <button id="checkout" onClick={(event) => {openCart(event)}}>Checkout</button> :
+    <button id="checkout" onClick={(event) => {openCart(event)}}>Next</button>;
+  };
 
   var openCart = (event) => {
     event.preventDefault();
     setPage(page + 1);
     if (page === 1) {
       console.log("hooray, page 1!")
+      setButtonVisible(false);
       setF1Visible(true);
     } else if (page === 2) {
       console.log("hooray, page 2!")
@@ -42,6 +43,8 @@ const App = () => {
     } else {
       console.log("should have checked out already!");
       setF3Visible(false);
+      setButtonVisible(true);
+
     }
   }
 
@@ -51,7 +54,8 @@ const App = () => {
       <Form isVisible={F1Visible} formNumber="F1" />
       <Form isVisible={F2Visible} formNumber="F2" />
       <Form isVisible={F3Visible} formNumber="F3" />
-      <button id="checkout" onClick={(event) => {openCart(event)}}>Checkout</button>
+      <Button isVisible={buttonVisible} formNumber="button" />
+      {/* <button id="checkout" onClick={(event) => {openCart(event)}}>Checkout</button> */}
     </div>
 
   )
