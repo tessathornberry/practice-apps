@@ -10,6 +10,8 @@ const morgan = require("morgan");
 // I think we need at least a model?
 
 const db = require("./db");
+const models = require("./model.js");
+
 
 const app = express();
 
@@ -31,22 +33,33 @@ app.use(morgan('dev'));
  *
  *
  * Other routes here....
- *
- *
  */
+
 // app.get();
 app.post('/checkout', (req, res) => {
-  var params = req.body;
-  var queryStr = "INSERT into responses(username, password, line1, line2, city, state, zip, phone, ccNumber, expDate, billingzip) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
-  db.queryAsync(queryStr, params, (err, results) => {
+  var checkSID = req.body.s_id;
 
+  console.log('checkSID', checkSID);
+  if (models.queryS_ID(checkSID, (err, result) => {
+    if (err) {
+      console.log('error', err);
+    } else {
+      res.sendStatus(201).end();
+    }
+    console.log('result', result);
+  }))
+  //put some sort of 'if cookie is already in db or such here'
+  //if
+  var params = Object.values(req.body);
+  // console.log('params in server.index.js', params);
+  models.create(params, (err, result) => {
+    if (err) {
+      res.sendStatus(500);
+    } else {
+      res.sendStatus(201).end();
+    }
+    return result;
   })
-  .then((results) => console.log('results', results))
-  .catch((err) => console.log('err', err));
-
-  //I have to pass the req body on to the model to handle unless I want to raw data it here
-  //what would that look like? oof, forgot mysql!!
-
 });
 // app.
 
