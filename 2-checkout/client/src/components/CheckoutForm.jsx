@@ -3,7 +3,7 @@ import App from './App.jsx';
 
 const {useState} = React;
 //credit card #, expiry date, CVV, and billing zip code. ccNumber, expDate, billingzip
-const CheckoutForm = ({object, openCart, handleSubmit, submitForm}) => {
+const CheckoutForm = ({object, openCart, handleSubmit, submitForm, decrement}) => {
   const [ccNumber, setCCNumber] = useState('');
   const [expDate, setExpDate] = useState('');
   const [billingzip, setBillingZip] = useState('');
@@ -11,10 +11,12 @@ const CheckoutForm = ({object, openCart, handleSubmit, submitForm}) => {
 if (!object.line2) {
   object.line2 = '-';
 };
+
   return (
     <form onSubmit={(event)=> {
       event.preventDefault();
-      submitForm(event); //need to make this
+      submitForm(event);
+      openCart(event);
     }}>
       <div>{object.username}</div>
       <div>{object.email}</div>

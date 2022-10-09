@@ -13,6 +13,7 @@ const App = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [checkoutResponse, setCheckoutResponse] = useState({}); //object
   const [buttonVisible, setButtonVisible] = useState(true);
+  const [backButtonVisible, setBackButtonVisible] = useState(false);
   const [F1Visible, setF1Visible] = useState(false);
   const [F2Visible, setF2Visible] = useState(false);
   const [F3Visible, setF3Visible] = useState(false);
@@ -45,7 +46,7 @@ const App = () => {
   }
 
   var Form3Visible = ({isVisible}) => {
-    return isVisible ? <Form3 isVisible={F3Visible} object={checkoutResponse} openCart={openCart} handleSubmit={handleSubmit}/> : null;
+    return isVisible ? <Form3 isVisible={F3Visible} object={checkoutResponse} openCart={openCart} handleSubmit={handleSubmit} /> : null;
   }
 
   var CheckoutFormVisible = ({isVisible}) => {
@@ -72,10 +73,12 @@ const App = () => {
       console.log("hooray, page 3!")
       setF2Visible(false);
       setF3Visible(true);
-    } else {
-      console.log("should have checked out already!");
+    } else if (page === 4) {
       setF3Visible(false);
       setCheckoutVisible(true);
+    } else {
+      setCheckoutVisible(false);
+      setButtonVisible(true);
       //change this out for submit button on form 3 - close browswer? clear cookie?
     }
   };
@@ -89,13 +92,13 @@ const App = () => {
     })
     .catch((err => {
       console.log(err);
-      //put some kind of response here
+      //put some kind of response here to indicate custoemr has already submitted form
     }))
   };
 
   return (
     <div>
-      <h3>Hi hi!</h3>
+      <div></div>
       <Form1Visible isVisible={F1Visible} />
       <Form2Visible isVisible={F2Visible} />
       <Form3Visible isVisible={F3Visible} />

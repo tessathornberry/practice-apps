@@ -26,7 +26,7 @@ const Form2 = ({object, openCart, handleSubmit}) => {
       openCart(event);
     }}>
       <div><input type="text" placeholder="address line 1..." value={line1} onChange={(event) => setLine1(event.target.value)} required></input></div>
-      <div><input type="text" placeholder="address line 2..." value={line2} onChange={(event) => setLine2(event.target.value)} required></input></div>
+      <div><input type="text" placeholder="address line 2..." value={line2} onChange={(event) => setLine2(event.target.value)}></input></div>
       <div><input type="text" placeholder="city..." value={city} onChange={(event) => setCity(event.target.value)} required></input></div>
       <div><input type="text" placeholder="state..." value={state} onChange={(event) => setState(event.target.value)} required></input></div>
       <div><input type="text" placeholder="zip..." value={zip} onChange={(event) => setZip(event.target.value)} required></input></div>
