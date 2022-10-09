@@ -11,7 +11,11 @@ const Form1 = ({object, openCart, handleSubmit}) => {
   return (
     <form onSubmit={(event)=> {
       event.preventDefault();
-      var array = [];
+      // var array = [];
+      // array.push(name);
+      // array.push(email);
+      // array.push(password);
+      // handleSubmit(array);
       object.username = name;
       object.email = email;
       object.password = password;

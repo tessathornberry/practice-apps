@@ -1,6 +1,8 @@
 import React from "react";
 import Form1 from './Form1.jsx';
 import Form2 from './Form2.jsx';
+import Form3 from './Form3.jsx';
+import CheckoutForm from './CheckoutForm.jsx';
 
 
 const {useState, useEffect} = React;
@@ -13,6 +15,7 @@ const App = () => {
   const [F1Visible, setF1Visible] = useState(false);
   const [F2Visible, setF2Visible] = useState(false);
   const [F3Visible, setF3Visible] = useState(false);
+  const [checkoutVisible, setCheckoutVisible] = useState(false);
 
   /** declare result object and assign cookie as a value */
   //could we use useEffect here?
@@ -21,7 +24,8 @@ const App = () => {
     console.log('object in app', checkoutResponse);
   }, []);
 
-  const handleSubmit = (values) => {
+  //might have to be an array
+  const handleSubmit = (values) => {  //going to have to eventually put it all in order because it is alphabetizing
     const newValues = {...values};
     console.log('newValues', newValues);
   }
@@ -29,20 +33,27 @@ const App = () => {
   /** function to set forms visible or not */
   var Form = ({formNumber, isVisible}) => {
     return isVisible ? <div className="form">{formNumber}, this one</div> : null;
-  }
+  };
 
   var Form1Visible = ({isVisible}) => {
     return isVisible ? <Form1 isVisible={F1Visible} object={checkoutResponse} openCart={openCart} handleSubmit={handleSubmit}/> : null;
-  }
+  };
 
   var Form2Visible = ({isVisible}) => {
     return isVisible ? <Form2 isVisible={F2Visible} object={checkoutResponse} openCart={openCart} handleSubmit={handleSubmit}/> : null;
   }
 
+  var Form3Visible = ({isVisible}) => {
+    return isVisible ? <Form3 isVisible={F3Visible} object={checkoutResponse} openCart={openCart} handleSubmit={handleSubmit}/> : null;
+  }
+
+  var CheckoutFormVisible = ({isVisible}) => {
+    return isVisible ? <CheckoutForm isVisible={checkoutVisible} object={checkoutResponse} openCart={openCart} handleSubmit={handleSubmit} submitForm={submitForm}/> : null;
+  }
+
   var Button = ({isVisible}) => {
     return isVisible ? <button id="checkout" onClick={(event) => {openCart(event)}}>Checkout</button> :
     null;
-    // <button id="checkout" onClick={(event) => {openCart(event)}}>Next</button>;
   };
 
   var openCart = (event) => {
@@ -63,47 +74,32 @@ const App = () => {
     } else {
       console.log("should have checked out already!");
       setF3Visible(false);
-      //change this out for submit button on form 3
+      setCheckoutVisible(true);
+      //change this out for submit button on form 3 - close browswer? clear cookie?
     }
+  };
+  var submitForm = (event) => {
+    event.preventDefault();
+    axios.post('http://localhost:3000/checkout', checkoutResponse)
+    .then((response) =>  {
+      //clear screen and put happy image here
+    })
+    .catch((err => {
+      //put some kind of response here
+    }))
   }
 
   return (
     <div>
       <h3>Hi hi!</h3>
-      {/* <Form isVisible={F1Visible} formNumber="F1" /> */}
       <Form1Visible isVisible={F1Visible} />
       <Form2Visible isVisible={F2Visible} />
-      <Form isVisible={F3Visible} formNumber="F3" />
+      <Form3Visible isVisible={F3Visible} />
+      <CheckoutFormVisible isVisible={checkoutVisible} />
       <Button isVisible={buttonVisible} formNumber="button" />
-      {/* <button id="checkout" onClick={(event) => {openCart(event)}}>Checkout</button> */}
     </div>
 
   )
 };
-//pass result object along tp forms as a prop, an array of key/value pairs, or return the values to the app file?
-//F1 collects name, email, and password for account creation.
-// const Form1 = ({object, openCart}) => {
-//   const [name, setName] = useState('');
-//   const [email, setEmail] = useState('');
-//   const [password, setPassword] = useState('');
-
-
-//   return (
-
-//     <form onSubmit={(event)=> {
-//       event.preventDefault();
-//       object.username = name;
-//       object.email = email;
-//       object.password = password;
-//       console.log('object in Form 1', object);
-//       openCart(event);
-//     }}>
-//       <div><input type="text" placeholder="username..." value={name} onChange={(event) => setName(event.target.value)} required></input></div>
-//       <div><input type="text" placeholder="e-mail..." value={email} onChange={(event) => setEmail(event.target.value)} required></input></div>
-//       <div><input type="text" placeholder="password..." value={password} onChange={(event) => setPassword(event.target.value)} required></input></div>
-//       <div><button type="submit">Next</button></div>
-//     </form>
-//   )
-// }
 
 export default App;
