@@ -21,8 +21,7 @@ app.use(express.json());
 // methods sent by client
 /**A second input should allow the user to search through the entries and filter the results as a result. - may need to do a conditional and fix db */
 app.get('/glossary', (req, res) => {
-  //in app.get, bust use gereq.query because body is not automatically supplied
-  console.log('req.query', req.query);
+  //in app.get, bust use req.query because body is not automatically supplied
     db.findAllWords(req.query)
       .then((value) => {
         res.send(value).status(200);

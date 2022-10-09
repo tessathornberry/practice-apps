@@ -15,7 +15,6 @@ const Words = mongoose.model('Words', wordsSchema); //'words' is collection/tabl
 //GET
 var findAllWords = (input) => {
   var object = {input} || {};
-  console.log('input in findwords', input)
   return Words.find(input); //make sure there is an empty object here!
 };
 //POST
