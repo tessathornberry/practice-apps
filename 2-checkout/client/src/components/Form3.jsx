@@ -19,7 +19,7 @@ const Form3 = ({object, openCart, handleSubmit}) => {
       openCart(event);
     }}>
       <div><input type="text" placeholder="Credit Card Number..." value={ccNumber} onChange={(event) => setCCNumber(event.target.value)} required></input></div>
-      <div><input type="text" placeholder="expiration date mm/yyyy or mm/yy..." value={expDate} onChange={(event) => seteExpDate(event.target.value)} required></input></div>
+      <div><input type="text" placeholder="expiration date mm/yyyy or mm/yy..." value={expDate} onChange={(event) => setExpDate(event.target.value)} required></input></div>
       <div><input type="text" placeholder="billingzip..." value={billingzip} onChange={(event) => setBillingZip(event.target.value)} required></input></div>
       <div><button type="submit">Next</button></div>
     </form>

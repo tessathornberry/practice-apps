@@ -3,6 +3,7 @@ import Form1 from './Form1.jsx';
 import Form2 from './Form2.jsx';
 import Form3 from './Form3.jsx';
 import CheckoutForm from './CheckoutForm.jsx';
+import axios from 'axios';
 
 
 const {useState, useEffect} = React;
@@ -78,16 +79,19 @@ const App = () => {
       //change this out for submit button on form 3 - close browswer? clear cookie?
     }
   };
+
   var submitForm = (event) => {
     event.preventDefault();
     axios.post('http://localhost:3000/checkout', checkoutResponse)
     .then((response) =>  {
+      console.log('form submitted!', response)
       //clear screen and put happy image here
     })
     .catch((err => {
+      console.log(err);
       //put some kind of response here
     }))
-  }
+  };
 
   return (
     <div>
